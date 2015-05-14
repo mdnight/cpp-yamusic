@@ -8,13 +8,18 @@ QT       += network
 
 QT       -= gui
 
+CONFIG  += c++11
+
 TARGET = cpp-yamusic
 TEMPLATE = lib
 CONFIG += staticlib
+LIBS    += -lqjson
 
-SOURCES += yandexmusicapi.cpp
+SOURCES += yandexmusicapi.cpp \
+    filedownloader.cpp
 
-HEADERS += yandexmusicapi.h
+HEADERS += yandexmusicapi.h \
+    filedownloader.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

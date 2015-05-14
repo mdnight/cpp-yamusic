@@ -2,11 +2,34 @@
 #define FILEDOWNLOADER_H
 
 #include <QObject>
+#include <QByteArray>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QEventLoop>
 
-class FileDownloader
+class FileDownloader : public QObject
 {
+  Q_OBJECT
 public:
-  FileDownloader();
+  explicit FileDownloader(QUrl url);
+  virtual ~FileDownloader();
+  QByteArray downloadedData() const;
+  void getData(QUrl &link);
+
+signals:
+  void downloaded();
+
+
+private slots:
+  void fileDownloaded(QNetworkReply *preply);
+  void onTimeOut();
+
+private:
+  quint8 code;  //0 - успешно; 1 -- ошибка загрузки
+  QNetworkAccessManager *mngr;
+  QByteArray m_DownloadedData;
+  QEventLoop *loop;
 };
 
 #endif // FILEDOWNLOADER_H
