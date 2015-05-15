@@ -13,13 +13,13 @@ CONFIG  += c++11
 TARGET = cpp-yamusic
 TEMPLATE = lib
 CONFIG += staticlib
-LIBS    += -lqjson
 
 SOURCES += yandexmusicapi.cpp \
     filedownloader.cpp
 
 HEADERS += yandexmusicapi.h \
-    filedownloader.h
+    filedownloader.h \
+    cpp-yamusic.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

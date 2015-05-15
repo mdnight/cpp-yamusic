@@ -1,18 +1,21 @@
 #include "yandexmusicapi.h"
 #include "filedownloader.h"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
-
-YandexmusicApi::YandexmusicApi(QString &username, QString &password)
+YandexmusicApi::YandexmusicApi(/*QString &username, QString &password*/)
 {
 
 }
 
+YandexmusicApi::~YandexmusicApi() {}
+
 QString YandexmusicApi::getTrackUrl(const QString &storageDir)
 {
   FileDownloader *fd = new FileDownloader(QUrl(QString("https://storage.mds.yandex.net/download-info/%1/2?format=json").arg(storageDir)));
-  fd->~FileDownloader();
-
   QJsonDocument jsonDoc = QJsonDocument::fromJson(fd->downloadedData());
+  fd->~FileDownloader();
 
   QByteArray h = QCryptographicHash::hash("XGRlBW9FXlekgbPrRHuSiA" +
                                           jsonDoc.object().value("path").toString().mid(1).toUtf8() +
