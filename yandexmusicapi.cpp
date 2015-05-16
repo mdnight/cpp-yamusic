@@ -42,7 +42,7 @@ QList<QList<QString> > YandexmusicApi::getTrackInfo(const QString &name)
     {
       tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("id").toDouble());
       tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("storageDir").toString();
-      tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("durationMs").toDouble());
+      tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("durationMs").toDouble() / 1000 /60);
       tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("title").toString();
       tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("album").toObject().value("id").toDouble());
       tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(0).toObject().value("album").toObject().value("year").toDouble());
@@ -114,4 +114,19 @@ QList<QList<QString> > YandexmusicApi::getAlbumInfo(const QString &name)
     }
 
   return albumInfo;
+}
+
+QString YandexmusicApi::getTrackParameter(const QList<QString> &trackInfo, trackParameter param)
+{
+  return trackInfo[static_cast<int>(param)];
+}
+
+QString YandexmusicApi::getAlbumParameter(const QList<QString> &albumInfo, albumParameter param)
+{
+  return albumInfo[static_cast<int>(param)];
+}
+
+QString YandexmusicApi::getArtistParameter(const QList<QString> &artistInfo, artistParameter param)
+{
+  return artistInfo[static_cast<int>(param)];
 }
