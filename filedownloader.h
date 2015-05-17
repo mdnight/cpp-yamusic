@@ -13,9 +13,11 @@ class FileDownloader : public QObject
   Q_OBJECT
 public:
   explicit FileDownloader(QUrl url);
+  explicit FileDownloader();
   virtual ~FileDownloader();
   QByteArray downloadedData() const;
-  void getData(QUrl &link);
+  void getData(const QUrl &link);
+  void clearData();
 
 signals:
   void downloaded();

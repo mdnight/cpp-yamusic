@@ -9,9 +9,9 @@ class YandexmusicApi
 {
 
 public:
-  enum class trackParameter : int {TrackId = 0, StorageDir, DurationSec, Title, AlbumId, Year, AlbumTitle, CoverUrl, Genre};
+  enum class trackParameter : int {TrackId = 0, StorageDir, DurationSec, Title, AlbumId, Year, AlbumTitle, CoverUrl, Genre, ArtistName};
   enum class albumParameter : int {AlbumId = 0, StorageDir, Title, Year, CoverUri, ArtistId, ArtistName, TrackCount, Genre};
-  enum class artistParameter : int {Id = 0, Name, Cover, Uri, Tracks, DirectAlbums, Genre};
+  enum class artistParameter : int {Id = 0, Name, CoverUri, Tracks, DirectAlbums, Genre};
 
   YandexmusicApi();
   ~YandexmusicApi();

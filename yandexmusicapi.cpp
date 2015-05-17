@@ -42,13 +42,14 @@ QList<QList<QString> > YandexmusicApi::getTrackInfo(const QString &name)
     {
       tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("id").toDouble());
       tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("storageDir").toString();
-      tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("durationMs").toDouble() / 1000 /60);
+      tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("durationMs").toDouble());
       tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("title").toString();
       tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("album").toObject().value("id").toDouble());
-      tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(0).toObject().value("album").toObject().value("year").toDouble());
-      tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(0).toObject().value("album").toObject().value("title").toString();
-      tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(0).toObject().value("album").toObject().value("coverUri").toString();
-      tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(0).toObject().value("album").toObject().value("genre").toString();
+      tmp << QString::number(jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("album").toObject().value("year").toDouble());
+      tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("album").toObject().value("title").toString();
+      tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("album").toObject().value("coverUri").toString();
+      tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("album").toObject().value("genre").toString();
+      tmp << jsonDoc.object().value("tracks").toObject().value("items").toArray().at(i).toObject().value("artists").toArray().at(0).toObject().value("name").toString();
       trackInfo << tmp;
       tmp.clear();
     }
@@ -80,7 +81,6 @@ QList<QList<QString> > YandexmusicApi::getArtistInfo(const QString &name)
       artistInfo << tmp;
       tmp.clear();
     }
-  qDebug() << artistInfo;
 
   return artistInfo;
 }
@@ -118,15 +118,23 @@ QList<QList<QString> > YandexmusicApi::getAlbumInfo(const QString &name)
 
 QString YandexmusicApi::getTrackParameter(const QList<QString> &trackInfo, trackParameter param)
 {
-  return trackInfo[static_cast<int>(param)];
+  if(trackInfo.length() == 9)
+    return trackInfo[static_cast<int>(param)];
+  else
+    return "";
 }
 
 QString YandexmusicApi::getAlbumParameter(const QList<QString> &albumInfo, albumParameter param)
 {
-  return albumInfo[static_cast<int>(param)];
-}
+  if(albumInfo.length() == 9)
+    return albumInfo[static_cast<int>(param)];
+  else
+    return "";}
 
 QString YandexmusicApi::getArtistParameter(const QList<QString> &artistInfo, artistParameter param)
 {
-  return artistInfo[static_cast<int>(param)];
+  if(artistInfo.length() == 6)
+    return artistInfo[static_cast<int>(param)];
+  else
+    return "";
 }

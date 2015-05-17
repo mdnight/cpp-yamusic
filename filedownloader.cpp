@@ -1,5 +1,4 @@
 #include "filedownloader.h"
-#include <QDebug>
 #include <QTimer>
 
 FileDownloader::FileDownloader(QUrl url) : QObject()
@@ -10,6 +9,14 @@ FileDownloader::FileDownloader(QUrl url) : QObject()
   QObject::connect(mngr, SIGNAL(finished(QNetworkReply*)), loop, SLOT(quit()));
 
   getData(url);
+}
+
+FileDownloader::FileDownloader()
+{
+  mngr = new QNetworkAccessManager(this);
+  loop = new QEventLoop;
+  QObject::connect(mngr, SIGNAL(finished(QNetworkReply*)),this, SLOT(fileDownloaded(QNetworkReply*)));
+  QObject::connect(mngr, SIGNAL(finished(QNetworkReply*)), loop, SLOT(quit()));
 }
 
 FileDownloader::~FileDownloader()
@@ -40,11 +47,16 @@ void FileDownloader::onTimeOut()
   code = 1;
 }
 
-void FileDownloader::getData(QUrl &link)
+void FileDownloader::getData(const QUrl &link)
 {
   QNetworkRequest *request = new QNetworkRequest(link);
   mngr->get(*request);
   QTimer::singleShot(10000, this, SLOT(onTimeOut()));
   loop->exec();
   delete request;
+}
+
+void FileDownloader::clearData()
+{
+  m_DownloadedData.clear();
 }
